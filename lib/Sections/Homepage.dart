@@ -88,11 +88,11 @@ class _HomePageState extends State<HomePage> {
                       openBuilder: (_, closeContainer) {
                         return AllSpells();
                       }),
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).pushNamed("/allSpells");
-                      },
-                      child: Text("Spells TESTING")),
+                  // ElevatedButton(
+                  //     onPressed: () {
+                  //       Navigator.of(context).pushNamed("/allSpells");
+                  //     },
+                  //     child: Text("Spells TESTING")),
                   ElevatedButton(
                       onPressed: () {
                         _showToast();
