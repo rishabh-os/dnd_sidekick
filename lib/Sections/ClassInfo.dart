@@ -1,7 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:sliver_tools/sliver_tools.dart';
-import 'package:table_sticky_headers/table_sticky_headers.dart';
-import '../Components/DataLoader.dart';
+import "package:flutter/material.dart";
+import "package:sliver_tools/sliver_tools.dart";
+import "../Components/DataLoader.dart";
 
 class ClassInfo extends StatefulWidget {
   ClassInfo({Key? key}) : super(key: key);
@@ -15,7 +14,7 @@ class _ClassInfoState extends State<ClassInfo> {
   @override
   Widget build(BuildContext context) {
     data = ModalRoute.of(context)!.settings.arguments as Map<dynamic, dynamic>?;
-    final classDetails = DndData.fullClasses[data!["index"]]['class'][0];
+    final classDetails = DndData.fullClasses[data!["index"]]["class"][0];
     final List<String> colNames = [
       "Total Cantrips Known",
       "Total Spells Known",
@@ -23,10 +22,10 @@ class _ClassInfoState extends State<ClassInfo> {
       "Spells Known of Each Level"
     ];
     final List<List<dynamic>?> tableData = [
-      classDetails['cantripProgression'],
-      classDetails['spellsKnownProgression'],
-      classDetails['classTableGroups'][0]["rows"],
-      classDetails['classTableGroups'][2]["rows"]
+      classDetails["cantripProgression"],
+      classDetails["spellsKnownProgression"],
+      classDetails["classTableGroups"][0]["rows"],
+      classDetails["classTableGroups"][2]["rows"]
     ];
     return SafeArea(
         child: Material(
@@ -53,31 +52,31 @@ class _ClassInfoState extends State<ClassInfo> {
                 Container(
                   height: 400,
                   width: double.infinity,
-                  child: StickyHeadersTable(
-                      cellDimensions: CellDimensions.fixed(
-                          contentCellWidth: 150,
-                          contentCellHeight: 50,
-                          stickyLegendWidth: 50,
-                          stickyLegendHeight: 50),
-                      legendCell: Text("Level"),
-                      columnsLength: 4,
-                      rowsLength: 20,
-                      columnsTitleBuilder: (i) => Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text("${colNames[i]}"),
-                          ),
-                      rowsTitleBuilder: (i) => Text("${i + 1}"),
-                      contentCellBuilder: (i, j) {
-                        if (i == 2) {
-                          return Text("${tableData[i]![j][0]}");
-                        } else {
-                          return Text("${tableData[i]![j]}");
-                        }
-                      }),
+                  // child: StickyHeadersTable(
+                  //     cellDimensions: CellDimensions.fixed(
+                  //         contentCellWidth: 150,
+                  //         contentCellHeight: 50,
+                  //         stickyLegendWidth: 50,
+                  //         stickyLegendHeight: 50),
+                  //     legendCell: Text("Level"),
+                  //     columnsLength: 4,
+                  //     rowsLength: 20,
+                  //     columnsTitleBuilder: (i) => Padding(
+                  //           padding: const EdgeInsets.all(8.0),
+                  //           child: Text("${colNames[i]}"),
+                  //         ),
+                  //     rowsTitleBuilder: (i) => Text("${i + 1}"),
+                  //     contentCellBuilder: (i, j) {
+                  //       if (i == 2) {
+                  //         return Text("${tableData[i]![j][0]}");
+                  //       } else {
+                  //         return Text("${tableData[i]![j]}");
+                  //       }
+                  //     }),
                 )
               ],
             ),
-            for (var i in classDetails['classFeatures']) Text("$i")
+            for (var i in classDetails["classFeatures"]) Text("$i")
           ])
         ],
       ),
@@ -89,7 +88,7 @@ class _ClassInfoState extends State<ClassInfo> {
       [
         ListTile(
           title: Text(
-            'Hit dice: 1d${classDetails["hd"]["faces"]}',
+            "Hit dice: 1d${classDetails["hd"]["faces"]}",
           ),
         ),
         ListTile(
@@ -171,16 +170,16 @@ class _CardHeader extends StatelessWidget {
 //                   ]),
 //                   for (var x in [for (var i = 0; i < 20; i += 1) i])
 //                     TableRow(children: [
-//                       Center(child: Text('${x + 1}')),
+//                       Center(child: Text("${x + 1}")),
 //                       Center(
 //                           child:
-//                               Text("${classDetails['cantripProgression'][x]}")),
+//                               Text("${classDetails["cantripProgression"][x]}")),
 //                       Center(
 //                           child: Text(
-//                               "${classDetails['spellsKnownProgression'][x]}")),
+//                               "${classDetails["spellsKnownProgression"][x]}")),
 //                       Center(
 //                           child: Text(
-//                               "${classDetails['classTableGroups'][0]['rows'][x][0]}"))
+//                               "${classDetails["classTableGroups"][0]["rows"][x][0]}"))
 //                     ])
 //                 ],
 //               ),
@@ -201,8 +200,8 @@ class _CardHeader extends StatelessWidget {
 //                   ]),
 //                   for (var x in [for (var i = 0; i < 20; i += 1) i])
 //                     TableRow(children: [
-//                       Center(child: Text('${x + 1}')),
-//                       for (var y in classDetails['classTableGroups'][2]["rows"]
+//                       Center(child: Text("${x + 1}")),
+//                       for (var y in classDetails["classTableGroups"][2]["rows"]
 //                           [x])
 //                         Center(child: Text("$y")),
 //                     ])

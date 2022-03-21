@@ -1,7 +1,7 @@
-import 'dart:core';
-import 'package:flutter/material.dart';
+import "dart:core";
+import "package:flutter/material.dart";
 
-import '../Components/DataLoader.dart';
+import "../Components/DataLoader.dart";
 
 class Classes extends StatefulWidget {
   Classes({Key? key}) : super(key: key);
@@ -16,7 +16,7 @@ class _ClassesState extends State<Classes> {
     return Container(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Classes'),
+          title: Text("Classes"),
         ),
         body: Column(
           children: [
@@ -28,7 +28,7 @@ class _ClassesState extends State<Classes> {
                       elevation: 1,
                       child: InkWell(
                         onTap: () {
-                          Navigator.pushNamed(context, '/classInfo',
+                          Navigator.pushNamed(context, "/classInfo",
                               arguments: {"index": index});
                         },
                         child: Container(
@@ -36,7 +36,7 @@ class _ClassesState extends State<Classes> {
                             padding: EdgeInsets.symmetric(horizontal: 10),
                             height: 35,
                             child: Text(
-                              '${DndData.classNamesList[index]}',
+                              "${DndData.classNamesList[index]}",
                               style: TextStyle(fontSize: 20),
                             )),
                       ),

@@ -1,9 +1,9 @@
-import 'package:dnd_sidekick/Sections/Spells/SpellDetails.dart';
-import 'package:dnd_sidekick/main.dart';
-import 'package:draggable_scrollbar/draggable_scrollbar.dart';
-import 'package:flutter/material.dart';
+import "package:dnd_sidekick/Sections/Spells/SpellDetails.dart";
+import "package:dnd_sidekick/main.dart";
+import "package:draggable_scrollbar/draggable_scrollbar.dart";
+import "package:flutter/material.dart";
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import "package:flutter_riverpod/flutter_riverpod.dart";
 
 DraggableScrollbar buildSpellList(BuildContext context, book) {
   ScrollController cont = ScrollController();
@@ -52,9 +52,8 @@ DraggableScrollbar buildSpellList(BuildContext context, book) {
               ? [for (var i in i["classes"]["fromClassList"]) i["name"]]
                   .toSet()
                   .toList() //! Clever AF method to get rid of diplicate Artificers
-              : ""; //! The ternary operator is a fix for TCE
-          final strClasses =
-              classes.toString().replaceAll('[', '').replaceAll(']', '');
+              : []; //! The ternary operator is a fix for TCE
+
           final level = i["level"] == 0 ? "Cantrip" : "Level: ${i["level"]}";
           final source = "Source: ${i["source"]}";
           final spellSchool = schools[i["school"]];
@@ -62,10 +61,10 @@ DraggableScrollbar buildSpellList(BuildContext context, book) {
           var components = i["components"].keys.toList();
           final strComponents = components
               .toString()
-              .replaceAll('[', '')
-              .replaceAll(']', '')
+              .replaceAll("[", "")
+              .replaceAll("]", "")
               .toUpperCase();
-          dynamic checkMaterial = (i["components"]['m']);
+          dynamic checkMaterial = (i["components"]["m"]);
           switch (checkMaterial.runtimeType) {
             case Null:
               materials = "None";
@@ -77,8 +76,8 @@ DraggableScrollbar buildSpellList(BuildContext context, book) {
               materials = checkMaterial["text"];
           }
           //! Most of this literally just for one spell Dream
-          var castRangeAmount = '';
-          String? castRangeType = '';
+          var castRangeAmount = "";
+          String? castRangeType = "";
           if (i["range"]["distance"] != null) {
             castRangeAmount = i["range"]["distance"]["amount"] != null
                 ? i["range"]["distance"]["amount"].toString()
@@ -88,7 +87,7 @@ DraggableScrollbar buildSpellList(BuildContext context, book) {
 
           return EachSpell(
               spellName: spellName,
-              strClasses: strClasses,
+              classes: classes,
               spellSchool: spellSchool,
               strComponents: strComponents,
               materials: materials,

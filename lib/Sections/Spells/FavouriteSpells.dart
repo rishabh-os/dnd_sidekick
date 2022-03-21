@@ -1,7 +1,7 @@
-import 'package:dnd_sidekick/Sections/Spells/AllSpells.dart';
-import 'package:dnd_sidekick/Sections/Spells/SpellListView.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:dnd_sidekick/Components/BookProvider.dart';
+import "package:dnd_sidekick/Sections/Spells/SpellListView.dart";
+import "package:flutter/material.dart";
+import "package:flutter_riverpod/flutter_riverpod.dart";
 
 class FavouriteSpells extends StatefulWidget {
   FavouriteSpells({Key? key}) : super(key: key);
@@ -24,7 +24,7 @@ class _FavouriteSpellsState extends State<FavouriteSpells> {
           resizeToAvoidBottomInset:
               false, //? Prevents the FAB from coming up with the keyboard
           appBar: AppBar(
-            title: Text('Favourite Spells'),
+            title: Text("Favourite Spells"),
             backgroundColor: Colors.pink,
           ),
           body: buildSpellList(context, favBook));

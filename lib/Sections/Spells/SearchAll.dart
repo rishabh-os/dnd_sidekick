@@ -1,8 +1,8 @@
-import 'dart:collection';
-import 'package:dnd_sidekick/Sections/Spells/SpellListView.dart';
-import 'package:dnd_sidekick/Components/DataLoader.dart';
-import 'package:flutter/material.dart';
-import 'package:animations/animations.dart';
+import "dart:collection";
+import "package:dnd_sidekick/Sections/Spells/SpellListView.dart";
+import "package:dnd_sidekick/Components/DataLoader.dart";
+import "package:flutter/material.dart";
+import "package:animations/animations.dart";
 
 class SearchAllFAB extends StatelessWidget {
   const SearchAllFAB({Key? key}) : super(key: key);
@@ -14,7 +14,7 @@ class SearchAllFAB extends StatelessWidget {
         closedBuilder: (_, openContainer) {
           return FloatingActionButton(
             tooltip: "Search spells",
-            heroTag: 'search',
+            heroTag: "search",
             elevation: 5.0,
             onPressed: openContainer,
             child: Icon(Icons.search),

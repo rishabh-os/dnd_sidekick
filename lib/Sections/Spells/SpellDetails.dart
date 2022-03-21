@@ -1,18 +1,18 @@
-import 'dart:io';
-import 'package:dnd_sidekick/Sections/Spells/SpellListView.dart';
-import 'package:flutter/material.dart';
-import 'package:dnd_sidekick/Components/DataLoader.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:screenshot/screenshot.dart';
-import 'dart:typed_data';
-import 'package:path_provider/path_provider.dart';
-import 'package:share/share.dart';
+import "dart:io";
+import "package:dnd_sidekick/Sections/Spells/SpellListView.dart";
+import "package:flutter/material.dart";
+import "package:dnd_sidekick/Components/DataLoader.dart";
+import "package:flutter_riverpod/flutter_riverpod.dart";
+import "package:screenshot/screenshot.dart";
+import "dart:typed_data";
+import "package:path_provider/path_provider.dart";
+import 'package:share_plus/share_plus.dart';
 
 class EachSpell extends StatefulWidget {
   const EachSpell({
     Key? key,
     required this.spellName,
-    required this.strClasses,
+    required this.classes,
     required this.spellSchool,
     required this.strComponents,
     required this.materials,
@@ -24,7 +24,7 @@ class EachSpell extends StatefulWidget {
   }) : super(key: key);
 
   final String spellName;
-  final String strClasses;
+  final List classes;
   final spellSchool;
   final String strComponents;
   final materials;
@@ -51,7 +51,7 @@ class _EachSpellState extends State<EachSpell> {
           borderRadius: BorderRadius.circular(10),
           onTap: () => {spellDetails(context)},
           child: ListTile(
-            title: Text('${widget.i["name"]}'),
+            title: Text("${widget.i["name"]}"),
             trailing: Consumer(builder: (context, ref, child) {
               final x = ref.watch(favouriteProvider);
               Widget notFavIcon =
@@ -107,7 +107,8 @@ class _EachSpellState extends State<EachSpell> {
       builder: (context) {
         Map rowDisplay = {
           "Name": widget.spellName,
-          "Classes": widget.strClasses,
+          "Classes":
+              widget.classes.toString().replaceAll("[", "").replaceAll("]", ""),
           "Materials": widget.materials.toString().capitalizeFirstLetter,
           "Description": widget.i["entries"][0]
         };
@@ -162,6 +163,7 @@ class _EachSpellState extends State<EachSpell> {
                     Center(
                       child: Text(
                         "${rowDisplay.values.toList()[1]}",
+                        textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 16),
                       ),
                     ),
@@ -223,7 +225,7 @@ class _EachSpellState extends State<EachSpell> {
     return await sc.capture().then((Uint8List? image) async {
       if (image != null) {
         final directory = await getApplicationDocumentsDirectory();
-        final imagePath = await File('${directory.path}/image.png').create();
+        final imagePath = await File("${directory.path}/image.png").create();
         await imagePath.writeAsBytes(image);
 
         /// Share Plugin

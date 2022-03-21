@@ -1,7 +1,7 @@
-import 'dart:convert';
-import 'dart:core';
-// import 'package:dnd_sidekick/Components/Spell.dart';
-import 'package:flutter/services.dart';
+import "dart:convert";
+import "dart:core";
+// import "package:dnd_sidekick/Components/Spell.dart";
+import "package:flutter/services.dart";
 
 class DndData {
   static List<String?> classNamesList = [];
@@ -21,7 +21,7 @@ class DndData {
 
   static Map<String, String> bookFileToBookTitle = {};
   static var manifestMap =
-      Future.any([rootBundle.loadString('AssetManifest.json')])
+      Future.any([rootBundle.loadString("AssetManifest.json")])
           .then((value) => json.decode(value).keys);
 
   static Future<List> getFilePaths(contains) async {
@@ -30,19 +30,19 @@ class DndData {
   }
 
   static Future getClasses() async {
-    List filePaths = await (getFilePaths('class/class'));
-    //! Using .forEach messes up the order of the names and .sort() doesn't fix it
+    List filePaths = await (getFilePaths("class/class"));
+    //! Using .forEach messes up the order of the names and .sort() doesn"t fix it
     for (int i = 0; i < filePaths.length; i++) {
       final response = await rootBundle.loadString(filePaths[i]);
       Map decoded = json.decode(response) as Map;
-      classNamesList.add(decoded['class'][0]['name']);
+      classNamesList.add(decoded["class"][0]["name"]);
       fullClasses.add(decoded);
     }
   }
 
   static List allSpells = [];
   static getAllSpells() async {
-    var path = await getFilePaths('included');
+    var path = await getFilePaths("included");
 
     final res = await rootBundle.loadString(path[0]);
     allSpells = json.decode(res) as List;
@@ -54,9 +54,9 @@ class DndData {
 
 extension CapExtension on String {
   String get capitalizeFirstLetter =>
-      this.length > 0 ? '${this[0].toUpperCase()}${this.substring(1)}' : '';
+      this.length > 0 ? "${this[0].toUpperCase()}${this.substring(1)}" : "";
   String get capitalizeFirstofEach => this
-      .replaceAll(RegExp(' +'), ' ')
+      .replaceAll(RegExp(" +"), " ")
       .split(" ")
       .map((str) => str.capitalizeFirstLetter)
       .join(" ");

@@ -1,9 +1,9 @@
-import 'package:animated_theme_switcher/animated_theme_switcher.dart';
-import 'package:animations/animations.dart';
-import 'package:dnd_sidekick/Components/Themes.dart';
-import 'package:dnd_sidekick/Sections/Spells/AllSpells.dart';
-import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import "package:animated_theme_switcher/animated_theme_switcher.dart";
+import "package:animations/animations.dart";
+import "package:dnd_sidekick/Components/Themes.dart";
+import "package:dnd_sidekick/Sections/Spells/AllSpells.dart";
+import "package:flutter/material.dart";
+import "package:fluttertoast/fluttertoast.dart";
 
 class HomePage extends StatefulWidget {
   @override
@@ -88,6 +88,11 @@ class _HomePageState extends State<HomePage> {
                       openBuilder: (_, closeContainer) {
                         return AllSpells();
                       }),
+                  ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).pushNamed("/allSpells");
+                      },
+                      child: Text("Spells TESTING")),
                   ElevatedButton(
                       onPressed: () {
                         _showToast();

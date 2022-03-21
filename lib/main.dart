@@ -1,14 +1,14 @@
-import 'package:dnd_sidekick/Components/DataLoader.dart';
-import 'package:dnd_sidekick/Sections/Spells/AllSpells.dart';
-import 'package:dnd_sidekick/Sections/ClassInfo.dart';
-import 'package:dnd_sidekick/Sections/Classes.dart';
-import 'package:dnd_sidekick/Sections/Spells/FavouriteSpells.dart';
-import 'package:dnd_sidekick/Sections/Homepage.dart';
-import 'package:dnd_sidekick/Components/Themes.dart';
-import 'package:flutter/material.dart';
-import 'package:animated_theme_switcher/animated_theme_switcher.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import "package:dnd_sidekick/Components/DataLoader.dart";
+import "package:dnd_sidekick/Sections/Spells/AllSpells.dart";
+import "package:dnd_sidekick/Sections/ClassInfo.dart";
+import "package:dnd_sidekick/Sections/Classes.dart";
+import "package:dnd_sidekick/Sections/Spells/FavouriteSpells.dart";
+import "package:dnd_sidekick/Sections/Homepage.dart";
+import "package:dnd_sidekick/Components/Themes.dart";
+import "package:flutter/material.dart";
+import "package:animated_theme_switcher/animated_theme_switcher.dart";
+import "package:flutter_riverpod/flutter_riverpod.dart";
+import "package:shared_preferences/shared_preferences.dart";
 
 // ? A class to handle a single instance of SharedPrefs, which is initialised on app start
 class SharedPrefs {
@@ -33,10 +33,10 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void initState() {
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      DndData.getAllSpells();
-      SharedPrefs.init();
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    DndData.getAllSpells();
+    SharedPrefs.init();
+    // });
     super.initState();
   }
 
@@ -47,14 +47,14 @@ class _MyAppState extends State<MyApp> {
         builder: (context, myTheme) {
           return MaterialApp(
               debugShowCheckedModeBanner: false,
-              title: 'DnD Database',
+              title: "DnD Database",
               theme: myTheme,
-              initialRoute: '/',
+              initialRoute: "/",
               routes: {
-                '/': (context) => HomePage(),
-                '/classes': (context) => Classes(),
-                '/classInfo': (context) => ClassInfo(),
-                '/allSpells': (context) => AllSpells(),
+                "/": (context) => HomePage(),
+                "/classes": (context) => Classes(),
+                "/classInfo": (context) => ClassInfo(),
+                "/allSpells": (context) => AllSpells(),
               },
               onGenerateRoute: (settings) {
                 if (settings.name == "/favSpells") {
@@ -77,6 +77,7 @@ class _MyAppState extends State<MyApp> {
                     },
                   );
                 }
+                return null;
               });
         });
   }
