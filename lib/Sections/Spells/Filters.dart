@@ -16,6 +16,8 @@ Future<dynamic> showFilters(BuildContext context) => showModalBottomSheet(
             isMultipleSelection: true, initSelectedItem: prov.sourceIntFilters);
         GroupController levelFilterController = GroupController(
             isMultipleSelection: true, initSelectedItem: prov.levelFilters);
+        GroupController classFilterController = GroupController(
+            isMultipleSelection: true, initSelectedItem: prov.classIntFilters);
         List<String> spellBookFilter = prov.spellBookFilter;
         List<String> classFilter = prov.classFilter;
         return StatefulBuilder(builder: (context, bottomSheetState) {
@@ -67,7 +69,7 @@ Future<dynamic> showFilters(BuildContext context) => showModalBottomSheet(
                     chipGroupStyle: chipGroupStyle(context),
                     values: [for (var i = 0; i < classFilter.length; i++) i],
                     itemTitle: classFilter,
-                    controller: sourceFilterController,
+                    controller: classFilterController,
                     onItemSelected: (selectedClasses) {
                       prov.setClassFilter(selectedClasses);
                     }),
@@ -130,6 +132,7 @@ Future<dynamic> showFilters(BuildContext context) => showModalBottomSheet(
                     levelFilterController.deselectAll();
                     prov.sourceIntFilters = [];
                     prov.levelFilters = [];
+                    prov.classIntFilters = [];
                     prov.resetBook();
                   },
                 ),

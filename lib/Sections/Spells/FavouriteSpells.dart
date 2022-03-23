@@ -1,5 +1,6 @@
 import 'package:dnd_sidekick/Components/BookProvider.dart';
 import "package:dnd_sidekick/Sections/Spells/SpellListView.dart";
+import 'package:dnd_sidekick/Sections/Spells/included.dart';
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 
@@ -15,10 +16,10 @@ class _FavouriteSpellsState extends State<FavouriteSpells> {
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, child) {
       final x = ref.watch(favouriteProvider);
-      List? favBook = ref
+      List<Spell> favBook = ref
           .read(bookProvider)
           .defaultBook
-          .where((element) => x.favSpellNames.contains(element["name"]))
+          .where((element) => x.favSpellNames.contains(element.name))
           .toList();
       return Scaffold(
           resizeToAvoidBottomInset:

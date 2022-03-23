@@ -1,6 +1,6 @@
 import "dart:convert";
 import "dart:core";
-// import "package:dnd_sidekick/Components/Spell.dart";
+import '../Sections/Spells/included.dart';
 import "package:flutter/services.dart";
 
 class DndData {
@@ -31,7 +31,7 @@ class DndData {
 
   static Future getClasses() async {
     List filePaths = await (getFilePaths("class/class"));
-    //! Using .forEach messes up the order of the names and .sort() doesn"t fix it
+    //! Using .forEach messes up the order of the names and .sort() doesn't fix it
     for (int i = 0; i < filePaths.length; i++) {
       final response = await rootBundle.loadString(filePaths[i]);
       Map decoded = json.decode(response) as Map;
@@ -41,14 +41,13 @@ class DndData {
   }
 
   static List allSpells = [];
+  static List<Spell> allSpells2 = [];
   static getAllSpells() async {
     var path = await getFilePaths("included");
 
     final res = await rootBundle.loadString(path[0]);
     allSpells = json.decode(res) as List;
-    // Map<String, dynamic> userMap = jsonDecode(res);
-    // var spell = AutoGenerate.fromJson(allSpells[0]);
-    // print(spell.toJson());
+    allSpells2 = allSpells.map((i) => Spell.fromJson(i)).toList();
   }
 }
 

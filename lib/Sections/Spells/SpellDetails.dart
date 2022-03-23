@@ -1,5 +1,6 @@
 import "dart:io";
 import "package:dnd_sidekick/Sections/Spells/SpellListView.dart";
+import 'package:dnd_sidekick/Sections/Spells/included.dart';
 import "package:flutter/material.dart";
 import "package:dnd_sidekick/Components/DataLoader.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
@@ -17,6 +18,7 @@ class EachSpell extends StatefulWidget {
     required this.strComponents,
     required this.materials,
     required this.i,
+    required this.materialsExist,
     required this.castRangeType,
     required this.castRangeAmount,
     required this.level,
@@ -24,13 +26,14 @@ class EachSpell extends StatefulWidget {
   }) : super(key: key);
 
   final String spellName;
-  final List classes;
+  final List<FromClassList>? classes;
   final spellSchool;
   final String strComponents;
   final materials;
-  final i;
+  final Spell i;
+  final bool materialsExist;
   final String? castRangeType;
-  final String castRangeAmount;
+  final String? castRangeAmount;
   final String level;
   final String source;
 
@@ -51,7 +54,7 @@ class _EachSpellState extends State<EachSpell> {
           borderRadius: BorderRadius.circular(10),
           onTap: () => {spellDetails(context)},
           child: ListTile(
-            title: Text("${widget.i["name"]}"),
+            title: Text("${widget.i.name}"),
             trailing: Consumer(builder: (context, ref, child) {
               final x = ref.watch(favouriteProvider);
               Widget notFavIcon =
@@ -61,18 +64,18 @@ class _EachSpellState extends State<EachSpell> {
                 key: Key("fav"),
                 color: Colors.yellow,
               );
-              Widget isFav = x.favSpellNames.contains(widget.i["name"])
+              Widget isFav = x.favSpellNames.contains(widget.i.name)
                   ? favIcon
                   : notFavIcon;
               return IconButton(
                 splashRadius: 20,
                 onPressed: () {
                   setState(() {
-                    if (x.favSpellNames.contains(widget.i["name"])) {
-                      x.removeFav(widget.i["name"]);
+                    if (x.favSpellNames.contains(widget.i.name)) {
+                      x.removeFav(widget.i.name);
                       isFav = notFavIcon;
                     } else {
-                      x.addFav(widget.i["name"]);
+                      x.addFav(widget.i.name);
                       isFav = favIcon;
                     }
                   });
@@ -98,6 +101,10 @@ class _EachSpellState extends State<EachSpell> {
 
   Future<dynamic> spellDetails(BuildContext context) {
     ScreenshotController sc = ScreenshotController();
+    var glasses = [];
+    widget.classes?.forEach(
+      (element) => glasses.add(element.name),
+    );
     return showModalBottomSheet(
       isScrollControlled: true,
       shape: RoundedRectangleBorder(
@@ -107,31 +114,25 @@ class _EachSpellState extends State<EachSpell> {
       builder: (context) {
         Map rowDisplay = {
           "Name": widget.spellName,
-          "Classes":
-              widget.classes.toString().replaceAll("[", "").replaceAll("]", ""),
+          "Classes": glasses.toString().replaceAll("[", "").replaceAll("]", ""),
           "Materials": widget.materials.toString().capitalizeFirstLetter,
-          "Description": widget.i["entries"][0]
+          "Description": widget.i.entries![0]
         };
         Map gridDisplay = {
           "Level": widget.level.replaceFirst("Level: ", ""),
           "School": widget.spellSchool,
           "Components": widget.strComponents,
-          "Cast Time": widget.i["time"][0]["number"].toString() +
+          "Cast Time": widget.i.time![0].number.toString() +
               " " +
-              widget.i["time"][0]["unit"],
-          "Cast Type":
-              widget.i["range"]["type"].toString().capitalizeFirstofEach,
-          "Range": widget.castRangeAmount +
-              " " +
-              widget.castRangeType.toString().capitalizeFirstofEach,
+              widget.i.time![0].unit.toString(),
+          "Cast Type": widget.castRangeType,
+          "Range": widget.castRangeAmount,
         };
 
         return Screenshot(
           controller: sc,
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            // controller: scroll,
-            // shrinkWrap: true,
             children: [
               Padding(
                 padding:
@@ -199,10 +200,12 @@ class _EachSpellState extends State<EachSpell> {
                     ),
                 ],
               ),
-              ListTile(
-                title: Text("${rowDisplay.keys.toList()[2]}"),
-                subtitle: Text("${rowDisplay.values.toList()[2]}"),
-              ),
+              widget.materialsExist
+                  ? ListTile(
+                      title: Text("${rowDisplay.keys.toList()[2]}"),
+                      subtitle: Text("${rowDisplay.values.toList()[2]}"),
+                    )
+                  : Container(),
               ListTile(
                 title: Text("${rowDisplay.keys.toList()[3]}"),
                 subtitle: Text("${rowDisplay.values.toList()[3]}"),

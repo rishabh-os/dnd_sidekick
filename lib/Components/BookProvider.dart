@@ -1,11 +1,12 @@
 import "package:dnd_sidekick/Components/DataLoader.dart";
+import 'package:dnd_sidekick/Sections/Spells/included.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class BookProvider extends ChangeNotifier {
-  final List defaultBook = DndData.allSpells;
+  final List<Spell> defaultBook = DndData.allSpells2;
 
-  List book = DndData.allSpells;
+  List<Spell> book = DndData.allSpells2;
   List sourceFilteredBook = [];
   List sourceIntFilters = [];
   List sourceFilters = [];
@@ -68,20 +69,35 @@ class BookProvider extends ChangeNotifier {
   }
 
   List filterByCategory(List selectedItems, String category) {
-    var filteredBook = [];
+    List<Spell> filteredBook = [];
     if (selectedItems.isNotEmpty) {
-      if (category != "classes") {
-        selectedItems.forEach((value) {
-          List x = [];
-          x = defaultBook
-              .where((element) => element[category] == value)
-              .toList();
+      selectedItems.forEach((value) {
+        List<Spell> x = [];
+        x = defaultBook.where((element) {
+          switch (category) {
+            case "level":
+              return element.level == value;
+            // break;
+            case "source":
+              return element.source == value;
+            case "classes":
+              var fromClassListObjests = element.classes!.fromClassList;
+              bool included = false;
+              // ? Include subclasses somehow
+              fromClassListObjests?.forEach((element) {
+                if (element.name == value) {
+                  included = true;
+                }
+              });
+              return included;
+            default:
+              return false;
+          }
+        }).toList();
 
-          filteredBook = filteredBook + x;
-        });
-      } else {
-        // ? Do something to sort by classes
-      }
+        filteredBook = filteredBook + x;
+      });
+
       return filteredBook;
     } else {
       return defaultBook;
@@ -92,7 +108,7 @@ class BookProvider extends ChangeNotifier {
     Set s1 = filterByCategory(levelFilters, "level").toSet();
     Set s2 = filterByCategory(sourceFilters, "source").toSet();
     Set s3 = filterByCategory(classFilters, "classes").toSet();
-    book = s1.intersection(s2).intersection(s3).toList();
+    book = List<Spell>.from(s1.intersection(s2).intersection(s3).toList());
     notifyListeners();
   }
 
@@ -105,13 +121,14 @@ class BookProvider extends ChangeNotifier {
     sortValue = value;
     switch (value) {
       case "Spell Name":
-        book.sort((a, b) => a["name"].compareTo(b["name"]));
+        // book.sort((a, b) => a["name"].compareTo(b["name"]));
+        book.sort(((a, b) => (a.name?.compareTo(b.name ?? "") ?? 0)));
         break;
       case "Level":
-        book.sort((a, b) => a["level"].compareTo(b["level"]));
+        book.sort(((a, b) => (a.level?.compareTo(b.level ?? 0) ?? 0)));
         break;
       case "Source Name":
-        book.sort((a, b) => a["source"].compareTo(b["source"]));
+        book.sort(((a, b) => (a.source?.compareTo(b.source ?? "") ?? 0)));
         break;
     }
 

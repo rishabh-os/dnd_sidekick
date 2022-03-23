@@ -1,11 +1,14 @@
+import 'dart:collection';
+
 import "package:dnd_sidekick/Sections/Spells/SpellDetails.dart";
+import 'package:dnd_sidekick/Sections/Spells/included.dart';
 import "package:dnd_sidekick/main.dart";
 import "package:draggable_scrollbar/draggable_scrollbar.dart";
 import "package:flutter/material.dart";
-
+import "package:dnd_sidekick/Components/DataLoader.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 
-DraggableScrollbar buildSpellList(BuildContext context, book) {
+DraggableScrollbar buildSpellList(BuildContext context, List<Spell> book) {
   ScrollController cont = ScrollController();
 
   return DraggableScrollbar(
@@ -47,49 +50,43 @@ DraggableScrollbar buildSpellList(BuildContext context, book) {
           };
           // Map componentMap = {"v": "Verbal", "s": "Somatic", "m": "Material"};
           final i = book[index];
-          final spellName = i["name"];
-          final classes = i["classes"]["fromClassList"] != null
-              ? [for (var i in i["classes"]["fromClassList"]) i["name"]]
-                  .toSet()
-                  .toList() //! Clever AF method to get rid of diplicate Artificers
-              : []; //! The ternary operator is a fix for TCE
-
-          final level = i["level"] == 0 ? "Cantrip" : "Level: ${i["level"]}";
-          final source = "Source: ${i["source"]}";
-          final spellSchool = schools[i["school"]];
-          var materials;
-          var components = i["components"].keys.toList();
-          final strComponents = components
+          final spellName = i.name;
+          // final classes = i["classes"]["fromClassList"] != null
+          //     ? [for (var i in i["classes"]["fromClassList"]) i["name"]]
+          //         .toSet()
+          //         .toList() //! Clever AF method to get rid of diplicate Artificers
+          //     : []; //! The ternary operator is a fix for TCE
+          final classes = i.classes!.fromClassList;
+          final level = i.level == 0 ? "Cantrip" : "Level: ${i.level}";
+          final source = "Source: ${i.source}";
+          final spellSchool = schools[i.school];
+          var materials = i.components!.m!.text;
+          var components = i.components!.toJson().keys;
+          final materialsExist = i.components!.m!.text.runtimeType != Null;
+          var strComponents = components
               .toString()
-              .replaceAll("[", "")
-              .replaceAll("]", "")
+              .replaceAll("(", "")
+              .replaceAll(")", "")
               .toUpperCase();
-          dynamic checkMaterial = (i["components"]["m"]);
-          switch (checkMaterial.runtimeType) {
-            case Null:
-              materials = "None";
-              break;
-            case String:
-              materials = checkMaterial;
-              break;
-            default:
-              materials = checkMaterial["text"];
+          if (!materialsExist) {
+            // print(strComponents);
+            strComponents = strComponents.replaceAll(', M', '');
           }
+
           //! Most of this literally just for one spell Dream
-          var castRangeAmount = "";
-          String? castRangeType = "";
-          if (i["range"]["distance"] != null) {
-            castRangeAmount = i["range"]["distance"]["amount"] != null
-                ? i["range"]["distance"]["amount"].toString()
-                : "";
-            castRangeType = i["range"]["distance"]["type"];
-          }
+          // var tempamount = (i.range!.distance?.amount ?? 0);
+          var castRangeAmount = (i.range!.distance?.amount ?? "").toString() +
+              " " +
+              (i.range!.distance?.type ?? "").toString().capitalizeFirstLetter;
+          String? castRangeType =
+              i.range!.type.toString().capitalizeFirstofEach;
 
           return EachSpell(
-              spellName: spellName,
+              spellName: spellName!,
               classes: classes,
               spellSchool: spellSchool,
               strComponents: strComponents,
+              materialsExist: materialsExist,
               materials: materials,
               i: i,
               castRangeType: castRangeType,

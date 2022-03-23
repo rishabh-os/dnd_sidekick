@@ -1,6 +1,7 @@
 import "dart:collection";
 import "package:dnd_sidekick/Sections/Spells/SpellListView.dart";
 import "package:dnd_sidekick/Components/DataLoader.dart";
+import 'package:dnd_sidekick/Sections/Spells/included.dart';
 import "package:flutter/material.dart";
 import "package:animations/animations.dart";
 
@@ -40,7 +41,7 @@ class SearchAll extends StatefulWidget {
 
 class _SearchAllState extends State<SearchAll> {
   var results;
-  List? book = DndData.allSpells;
+  List<Spell> book = DndData.allSpells2;
   TextEditingController controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -84,9 +85,9 @@ class _SearchAllState extends State<SearchAll> {
 
   void search(search) {
     if (search.isNotEmpty) {
-      List<LinkedHashMap> temp = [];
-      book!.forEach((element) {
-        if (element["name"].toLowerCase().contains(search.toLowerCase())) {
+      List<Spell> temp = [];
+      book.forEach((element) {
+        if (element.name!.toLowerCase().contains(search.toLowerCase())) {
           temp.add(element);
         }
       });
