@@ -3,7 +3,7 @@ import "package:animations/animations.dart";
 import "package:dnd_sidekick/Components/Themes.dart";
 import "package:dnd_sidekick/Sections/Spells/AllSpells.dart";
 import "package:flutter/material.dart";
-// import "package:fluttertoast/fluttertoast.dart";
+import "package:fluttertoast/fluttertoast.dart";
 
 class HomePage extends StatefulWidget {
   @override
@@ -11,12 +11,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // FToast fToast = FToast();
-
+  FToast fToast = FToast();
   @override
   void initState() {
     super.initState();
-    // fToast.init(context);
+    fToast.init(context);
   }
 
   _showToast() {
@@ -41,11 +40,11 @@ class _HomePageState extends State<HomePage> {
       ),
     );
 
-    // fToast.showToast(
-    //   child: toast,
-    //   gravity: ToastGravity.BOTTOM,
-    //   toastDuration: Duration(milliseconds: 800),
-    // );
+    fToast.showToast(
+      child: toast,
+      gravity: ToastGravity.BOTTOM,
+      toastDuration: Duration(milliseconds: 800),
+    );
   }
 
   Widget build(BuildContext context) {

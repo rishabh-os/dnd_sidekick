@@ -130,6 +130,7 @@ Future<dynamic> showFilters(BuildContext context) => showModalBottomSheet(
                   onPressed: () {
                     sourceFilterController.deselectAll();
                     levelFilterController.deselectAll();
+                    classFilterController.deselectAll();
                     prov.sourceIntFilters = [];
                     prov.levelFilters = [];
                     prov.classIntFilters = [];
